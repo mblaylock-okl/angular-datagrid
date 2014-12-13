@@ -1,0 +1,22 @@
+{
+  "name": "datagrid",
+  "version": "0.0.0",
+  "authors": [
+    "Monica Blaylock <mblaylock@onekingslane.com>"
+  ],
+  "description": "Datagrid with frozen header and frozen first n columns",
+  "main": "index.hml",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "angular": "~1.3.6"
+  }
+}

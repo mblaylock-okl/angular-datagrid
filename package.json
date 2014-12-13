@@ -1,0 +1,21 @@
+{
+  "name": "angular-benchmark",
+  "version": "0.0.0",
+  "description": "Angular benchmark for model and model-view",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Monica Blaylock",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.10.4",
+    "grunt-contrib-concat": "~0.5.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-uglify": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5"
+  }
+}
