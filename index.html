@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="src/css/datagrid.css">
-    <link rel="stylesheet" href="src/css/fixedheader.css">
+    <link rel="stylesheet" href="assets/datagrid.css">
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="assets/datagrid.js"></script>
+
+    <style>
+        dl {
+            margin-left: 20px;
+        }
+        dt {
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        .datagrid-container {
+            position: relative;
+            margin-top: 25px;
+            height: 500px;
+        }
+    </style>
 </head>
 
 <body ng-app="DatagridApp">
+    <header>
+        <h1>Datagrid example</h1>
+        <p>
+            This page displays an example of the angular datagrid, This datagrid has the first left columns fixed along with the header.
+        </p>
+        <p>
+            <h3>Parameters List</h3>
+            <dl>
+                <dt>$fixed-area-width</dt>
+                <dd>size of the left fixed area</dd>
+                <dt>$header-height</dt>
+                <dd>height of the header</dd>
+            </dl>
+        </p>
+    </header>
 
-    <div data-datagrid="true"></div>
+    <div class="datagrid-container">
+        <div data-datagrid="true"></div>
+    </div>
 </body>
 </html>

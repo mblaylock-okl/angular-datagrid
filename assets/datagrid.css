@@ -1,0 +1,85 @@
+body {
+  font-family: 'Proxima Nova', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-style: normal; }
+
+.datagrid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  display: flex; }
+
+.container-left {
+  overflow-y: hidden; }
+
+.container-left .row {
+  border-right: none; }
+
+.container-right {
+  flex: 1;
+  overflow: hidden; }
+
+.container-right > .header-container {
+  overflow: hidden; }
+
+.container-right > .body {
+  overflow-x: auto; }
+
+.container-right .row {
+  border-left: none; }
+
+.header {
+  font-size: 12px;
+  background-color: darkgray;
+  text-transform: uppercase; }
+
+.header-cell {
+  height: 50px;
+  line-height: 50px; }
+
+.row {
+  padding: 5px 0;
+  margin: 10px 0;
+  border: 1px solid forestgreen; }
+
+.body-cell {
+  height: 60px; }
+
+.body-cell > img {
+  height: 50px;
+  width: auto; }
+
+.body-cell > input[type='text'] {
+  width: 50px; }
+
+.header, .row {
+  display: flex;
+  min-width: -webkit-min-content;
+  /* SUPER IMPORTANT: if we don't have this, the hidden part will not render border and background color when scrolling */ }
+
+.container-right > .header {
+  overflow: hidden; }
+
+.header-cell, .body-cell {
+  min-width: 100px;
+  width: 100px; }
+
+.container-right > .body {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 300px;
+  right: 0;
+  overflow-y: scroll;
+  overflow-x: auto; }
+
+.container-left > .body {
+  overflow: hidden;
+  position: absolute;
+  top: 50px;
+  bottom: 0; }
+
+/*# sourceMappingURL=datagrid.css.map */

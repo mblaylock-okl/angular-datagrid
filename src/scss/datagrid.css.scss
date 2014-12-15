@@ -1,3 +1,6 @@
+$fixed-area-width: 300px;
+$header-height: 50px;
+
 body {
     font-family: 'Proxima Nova', HelveticaNeue, Helvetica, Arial, sans-serif;
     font-size: 12px;
@@ -40,14 +43,15 @@ body {
 }
 
 .header {
-    padding-top: 10px;
+//    padding-top: 10px;
     font-size: 12px;
     background-color: darkgray;
     text-transform: uppercase;
 }
 
 .header-cell {
-    height: 40px;
+    height: $header-height;
+    line-height: $header-height;
 }
 .row {
     padding: 5px 0;
@@ -82,3 +86,19 @@ body {
     width: 100px;
 }
 
+.container-right > .body {
+    position: absolute;
+    top: $header-height;
+    bottom: 0;
+    left: $fixed-area-width;
+    right: 0;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.container-left > .body {
+    overflow: hidden;
+    position: absolute;
+    top: $header-height;
+    bottom: 0;
+}

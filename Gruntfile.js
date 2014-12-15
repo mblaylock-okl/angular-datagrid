@@ -35,24 +35,24 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 files: {
-                    'assets/gantt.css' : 'assets/scss/gantt.css.scss'
+                    'assets/datagrid.css' : 'src/scss/datagrid.css.scss'
                 }
             }
         },
         watch: {
             files: ['<%= jshint.files %>'],
-            tasks: ['jshint', 'concat']
-            //css: {
-            //    files: '**/*.scss',
-            //    tasks: ['sass']
-            //}
+            tasks: ['jshint', 'concat'],
+            css: {
+                files: '**/*.scss',
+                tasks: ['sass']
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    //grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-concat');
 
     grunt.registerTask('default', ['sass', 'jshint', 'concat', 'uglify']);
