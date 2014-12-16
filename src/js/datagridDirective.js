@@ -10,9 +10,30 @@ datagridApp.directive('datagrid', [function(){
             }
         },
         scope: {
+            datasource: '=', //data structure that specifies the header and rows
+            lastFixedColumn: '@' //index of the last fixed column
         },
         controller: ['$scope', '$element', function ($scope, $element) {
 
+            $scope.datasource = $scope.datasource || { headers: [], rows: [], order: [] };
+            $scope.lastFixedColumn = $scope.lastFixedColumn || 3;
+
+            $scope.headers = $scope.datasource.headers;
+            $scope.rows = $scope.datasource.rows;
+            $scope.displayOrder = $scope.datasource.order;
+
+            // Aux methods
+            $scope.getColumnValue = function(row, path) {
+                path = path || '';
+                var fields = path.split(".");
+                var columnValue = row;
+
+                fields.forEach(function(cField){
+                    columnValue = columnValue[cField];
+                });
+
+                return columnValue;
+            };
 
         }],
         link: function ($scope, $element, attrs) {

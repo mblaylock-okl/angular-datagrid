@@ -1,170 +1,33 @@
 <div class="datagrid">
     <div class="container-left">
         <div class="header">
-            <div class="header-cell"></div>
-            <div class="header-cell">Vendor</div>
-            <div class="header-cell">OKL SKU</div>
+            <div class="header-cell" ng-repeat="col in displayOrder | limitTo:lastFixedColumn">{{col.header}}</div>
         </div>
         <div class="body">
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
-            </div>
-            <div class="row">
-                <div class="body-cell"><img
-                        src="https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$"/></div>
-                <div class="body-cell">McGuire</div>
-                <div class="body-cell">MCG10579</div>
+            <div class="row" ng-repeat="row in rows">
+                <div class="body-cell" ng-repeat="col in displayOrder | limitTo:lastFixedColumn">
+                    <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
+                    <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
+               </div>
             </div>
         </div>
     </div>
     <div class="container-right">
         <div class="header-container">
             <div class="header">
-                <div class="header-cell">Base Product</div>
-                <div class="header-cell">Item Name</div>
-                <div class="header-cell">Vendor SKU</div>
-                <div class="header-cell">SKU Updated By</div>
-                <div class="header-cell">SKU Updated Date</div>
-                <div class="header-cell">Commitments Updated By</div>
-                <div class="header-cell">Commitments Updated Date</div>
-                <div class="header-cell">Original Wholesale</div>
-                <div class="header-cell">MSRP</div>
-                <div class="header-cell">OKL Cost</div>
-                <div class="header-cell">OKL Retail</div>
-                <div class="header-cell">Margin</div>
+                <div class="header-cell" ng-repeat="col in displayOrder | startAt:lastFixedColumn">{{col.header}}</div>
             </div>
         </div>
         <div class="body">
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
-            </div>
-            <div class="row">
-                <div class="body-cell">Counter stool</div>
-                <div class="body-cell">Vendor Item</div>
-                <div class="body-cell">482-2345-928</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/20140</div>
-                <div class="body-cell">mblaylock</div>
-                <div class="body-cell">10/10/2014</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">$200</div>
-                <div class="body-cell">$100</div>
-                <div class="body-cell"><input type="text" value="$100"></div>
-                <div class="body-cell">100%</div>
+            <div class="row" ng-repeat="row in rows">
+                <div class="body-cell" ng-repeat="col in displayOrder | startAt:lastFixedColumn">
+                    <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
+                    <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
+                    <div ng-if="col.html_template == 'list'" ng-repeat="item in getColumnValue(row, col.path)">
+                        <img ng-if="col.sub_html_template == 'img'" ng-src="{{getColumnValue(item, col.sub_path)}}" >
+                        <span ng-if="col.sub_html_template == 'text'">{{getColumnValue(item, col.sub_path)}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
