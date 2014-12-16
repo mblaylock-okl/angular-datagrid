@@ -81,7 +81,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.controller('dat
         //}
     };
 
-    $scope.displayOrder = [
+    $scope.metadataOrdered = [
         $scope.metadata.thumbnail_image,
         $scope.metadata.item_name,
         $scope.metadata.vendor_name,
@@ -98,151 +98,89 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.controller('dat
         $scope.metadata.commitment_end
     ];
 
-    $scope.data = {
-        order: $scope.displayOrder,
-        rows: [
+    $scope.skuExample = {
+        sku_image: 'https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$',
+        okl_sku: '12345',
+        sku_shipping: {
+            is_white_glove: true,
+            is_free_shipping: false,
+            is_virtual_delivery: false,
+            is_ormd: true,
+            is_ship_as_is: true,
+            is_returnable: false,
+            is_perishable: false,
+            is_non_merchandise: false,
+            estimated_shipping_cost: 12.50
+        },
+        sku: {
+            is_vintage: true,
+            non_taxable: false,
+            vendor_sku: '12345',
+            wholesale: null,
+            retail: null,
+            cost: 13.50,
+            price: 27.99,
+            unit_of_measure: 1,
+            is_non_taxable: false,
+            modified_date: '2014-12-01',
+            modified_by: null
+        },
+        vendor_payment: {
+            lead_time: null
+        },
+        vendor: {
+            name: 'acme'
+        },
+        vendor_address: {
+            address1: 'twotwotwain st.',
+            address2: null,
+            city: 'oakland',
+            state: 'ca',
+            zip: '94105',
+        },
+        product_shipping: {
+            lead_time: null
+        },
+        product_description: {
+            name: 'The couch'
+        },
+        inv_ats: {
+            sell_multiple: 1,
+            whs_avai_qty: 1,
+            erp_phys_avail: 1,
+            imp_ats: 1
+        },
+        inv_commitments: [
             {
-                sku_image: 'https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$',
-                okl_sku: '12345',
-                sku_shipping: {
-                    is_white_glove: true,
-                    is_free_shipping: false,
-                    is_virtual_delivery: false,
-                    is_ormd: true,
-                    is_ship_as_is: true,
-                    is_returnable: false,
-                    is_perishable: false,
-                    is_non_merchandise: false,
-                    estimated_shipping_cost: 12.50
-                },
-                sku: {
-                    is_vintage: true,
-                    non_taxable: false,
-                    vendor_sku: '12345',
-                    wholesale: null,
-                    retail: null,
-                    cost: 13.50,
-                    price: 27.99,
-                    unit_of_measure: 1,
-                    is_non_taxable: false,
-                    modified_date: '2014-12-01',
-                    modified_by: null
-                },
-                vendor_payment: {
-                    lead_time: null
-                },
-                vendor: {
-                    name: 'acme'
-                },
-                vendor_address: {
-                    address1: 'twotwotwain st.',
-                    address2: null,
-                    city: 'oakland',
-                    state: 'ca',
-                    zip: '94105',
-                },
-                product_shipping: {
-                    lead_time: null
-                },
-                product_description: {
-                    name: 'The couch'
-                },
-                inv_ats: {
-                    sell_multiple: 1,
-                    whs_avai_qty: 1,
-                    erp_phys_avail: 1,
-                    imp_ats: 1
-                },
-                inv_commitments: [
-                    {
-                        id: 1,
-                        time_period_start: '2014-12-01T00:00:00',
-                        time_period_end: '2014-12-01T12:01:01',
-                        update_at: '2014-12-01T05:01:01',
-                        last_updated_user_id: 12,
-                        ship_method: 'fast'
-                    },
-                    {
-                        id: 2,
-                        time_period_start: '2014-12-11T00:00:00',
-                        time_period_end: '2014-12-11T12:01:01',
-                        update_at: '2014-12-01T15:01:01',
-                        last_updated_user_id: 12,
-                        ship_method: 'fast'
-                    }
-                ]
+                id: 1,
+                time_period_start: '2014-12-01T00:00:00',
+                time_period_end: '2014-12-01T12:01:01',
+                update_at: '2014-12-01T05:01:01',
+                last_updated_user_id: 12,
+                ship_method: 'fast'
             },
             {
-                sku_image: 'https://okl.scene7.com/is/image/OKL/Product_PRV10413_Image_1?$medium$',
-                okl_sku: '123456',
-                sku_shipping: {
-                    is_white_glove: true,
-                    is_free_shipping: false,
-                    is_virtual_delivery: false,
-                    is_ormd: true,
-                    is_ship_as_is: true,
-                    is_returnable: false,
-                    is_perishable: false,
-                    is_non_merchandise: false,
-                    estimated_shipping_cost: 12.50
-                },
-                sku: {
-                    is_vintage: true,
-                    non_taxable: false,
-                    vendor_sku: '12345',
-                    wholesale: null,
-                    retail: null,
-                    cost: 13.50,
-                    price: 27.99,
-                    unit_of_measure: 1,
-                    is_non_taxable: false,
-                    modified_date: '2014-12-01',
-                    modified_by: null
-                },
-                vendor_payment: {
-                    lead_time: null
-                },
-                vendor: {
-                    name: 'acme'
-                },
-                vendor_address: {
-                    address1: 'twotwotwain st.',
-                    address2: null,
-                    city: 'oakland',
-                    state: 'ca',
-                    zip: '94105',
-                },
-                product_shipping: {
-                    lead_time: null
-                },
-                product_description: {
-                    name: 'The couch'
-                },
-                inv_ats: {
-                    sell_multiple: 1,
-                    whs_avai_qty: 1,
-                    erp_phys_avail: 1,
-                    imp_ats: 1
-                },
-                inv_commitments: [
-                    {
-                        id: 1,
-                        time_period_start: '2014-12-01T00:00:00',
-                        time_period_end: '2014-12-01T12:01:01',
-                        update_at: '2014-12-01T05:01:01',
-                        last_updated_user_id: 12,
-                        ship_method: 'fast'
-                    },
-                    {
-                        id: 2,
-                        time_period_start: '2014-12-11T00:00:00',
-                        time_period_end: '2014-12-11T12:01:01',
-                        update_at: '2014-12-01T15:01:01',
-                        last_updated_user_id: 12,
-                        ship_method: 'fast'
-                    }
-                ]
+                id: 2,
+                time_period_start: '2014-12-11T00:00:00',
+                time_period_end: '2014-12-11T12:01:01',
+                update_at: '2014-12-01T15:01:01',
+                last_updated_user_id: 12,
+                ship_method: 'fast'
             }
+        ]
+    };
+
+    $scope.data = {
+        metadata: $scope.metadataOrdered,
+        rows: [
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample),
+            angular.copy($scope.skuExample)
         ]
     };
 
@@ -265,12 +203,11 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.controller('dat
         },
         controller: ['$scope', '$element', function ($scope, $element) {
 
-            $scope.datasource = $scope.datasource || { headers: [], rows: [], order: [] };
+            $scope.datasource = $scope.datasource || { rows: [], metadata: [] };
             $scope.lastFixedColumn = $scope.lastFixedColumn || 3;
 
-            $scope.headers = $scope.datasource.headers;
             $scope.rows = $scope.datasource.rows;
-            $scope.displayOrder = $scope.datasource.order;
+            $scope.metadata = $scope.datasource.metadata;
 
             // Aux methods
             $scope.getColumnValue = function(row, path) {

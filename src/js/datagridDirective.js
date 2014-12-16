@@ -15,12 +15,11 @@ datagridApp.directive('datagrid', [function(){
         },
         controller: ['$scope', '$element', function ($scope, $element) {
 
-            $scope.datasource = $scope.datasource || { headers: [], rows: [], order: [] };
+            $scope.datasource = $scope.datasource || { rows: [], metadata: [] };
             $scope.lastFixedColumn = $scope.lastFixedColumn || 3;
 
-            $scope.headers = $scope.datasource.headers;
             $scope.rows = $scope.datasource.rows;
-            $scope.displayOrder = $scope.datasource.order;
+            $scope.metadata = $scope.datasource.metadata;
 
             // Aux methods
             $scope.getColumnValue = function(row, path) {

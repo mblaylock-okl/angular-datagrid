@@ -1,11 +1,11 @@
 <div class="datagrid">
     <div class="container-left">
         <div class="header">
-            <div class="header-cell" ng-repeat="col in displayOrder | limitTo:lastFixedColumn">{{col.header}}</div>
+            <div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>
         </div>
         <div class="body">
             <div class="row" ng-repeat="row in rows">
-                <div class="body-cell" ng-repeat="col in displayOrder | limitTo:lastFixedColumn">
+                <div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">
                     <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
                     <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
                </div>
@@ -15,12 +15,12 @@
     <div class="container-right">
         <div class="header-container">
             <div class="header">
-                <div class="header-cell" ng-repeat="col in displayOrder | startAt:lastFixedColumn">{{col.header}}</div>
+                <div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>
             </div>
         </div>
         <div class="body">
             <div class="row" ng-repeat="row in rows">
-                <div class="body-cell" ng-repeat="col in displayOrder | startAt:lastFixedColumn">
+                <div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">
                     <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
                     <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
                     <div ng-if="col.html_template == 'list'" ng-repeat="item in getColumnValue(row, col.path)">

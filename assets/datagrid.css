@@ -38,7 +38,7 @@ body {
 
 .header-cell {
   height: 50px;
-  padding-top: 5px; }
+  line-height: 25px; }
 
 .row {
   padding: 5px 0;
