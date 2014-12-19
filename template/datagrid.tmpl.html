@@ -1,34 +1,35 @@
 <div class="datagrid">
+
+    <!-- fixed container -->
     <div class="container-left">
         <div class="header">
             <div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>
         </div>
+
         <div class="body">
-            <div class="row" ng-repeat="row in rows">
+            <div class="row" ng-repeat="row in rows track by $index" ng-form="datagridForm_{{$index}}">
                 <div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">
-                    <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
-                    <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
+                    <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
                </div>
             </div>
         </div>
     </div>
+
+    <!-- scrollable container -->
     <div class="container-right">
         <div class="header-container">
             <div class="header">
                 <div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>
             </div>
         </div>
+
         <div class="body">
-            <div class="row" ng-repeat="row in rows">
+            <div class="row" ng-repeat="row in rows" ng-form="">
                 <div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">
-                    <img ng-src="{{getColumnValue(row, col.path)}}" ng-if="col.html_template == 'img'">
-                    <span ng-if="col.html_template == 'text'">{{getColumnValue(row, col.path)}}</span>
-                    <div ng-if="col.html_template == 'list'" ng-repeat="item in getColumnValue(row, col.path)">
-                        <img ng-if="col.sub_html_template == 'img'" ng-src="{{getColumnValue(item, col.sub_path)}}" >
-                        <span ng-if="col.sub_html_template == 'text'">{{getColumnValue(item, col.sub_path)}}</span>
-                    </div>
+                    <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
                 </div>
             </div>
         </div>
     </div>
+
 </div>

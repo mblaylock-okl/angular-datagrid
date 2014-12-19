@@ -48,7 +48,7 @@ body {
 .body-cell {
   height: 60px; }
 
-.body-cell > img {
+.body-cell img {
   height: 50px;
   width: auto; }
 
@@ -81,5 +81,14 @@ body {
   position: absolute;
   top: 50px;
   bottom: 0; }
+
+.datagrid input[type='text'] {
+  width: 80px; }
+
+.datagrid input[type='text'] {
+  width: 80px; }
+
+.datagrid input[type='text'].ng-invalid {
+  border: 1px solid red; }
 
 /*# sourceMappingURL=datagrid.css.map */
