@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="body">
+        <div class="body" ng-style="fixedAreaWidth">
             <div class="row" ng-repeat="row in rows" ng-form="">
                 <div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">
                     <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>

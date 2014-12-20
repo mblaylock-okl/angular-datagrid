@@ -315,7 +315,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         controller: ['$scope', function ($scope) {
 
             $scope.datasource = $scope.datasource || { rows: [], metadata: [] };
-            $scope.lastFixedColumn = $scope.lastFixedColumn || 3;
+            $scope.lastFixedColumn = $scope.lastFixedColumn || 4;
 
             $scope.rows = $scope.datasource.rows;
             $scope.metadata = $scope.datasource.metadata;
@@ -347,9 +347,17 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
                 };
             })($scope.$fixedArea, $scope.$scrollableAreaHeader);
 
-
             $scope.$fixedArea.on('mousewheel', onMousewheel);
             $scope.$scrollableArea.on('scroll', onScroll);
+
+            $scope.$watch(function () {
+                return $scope.$fixedArea.width();
+            }, function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    $scope.fixedAreaWidth = {left: newValue + 'px'};
+                    console.log($scope.fixedAreaWidth);
+                }
+            });
 
             $element.on('$destroy', function() {
                 $scope.$fixedArea.off(onMousewheel);
