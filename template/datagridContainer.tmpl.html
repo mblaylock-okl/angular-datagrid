@@ -1,0 +1,14 @@
+<div class="{{cssClass}}">
+    <div class="header-container">
+        <div class="header">
+                <div class="header-cell" ng-repeat="col in metadata">{{col.header}}</div>
+        </div>
+    </div>
+    <div class="body" ng-style="bodyStyle">
+        <div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">
+            <div class="body-cell" ng-repeat="col in metadata">
+                <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
+            </div>
+        </div>
+    </div>
+</div>

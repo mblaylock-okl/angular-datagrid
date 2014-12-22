@@ -12,23 +12,23 @@ body {
   overflow: hidden;
   display: flex; }
 
-.container-left {
+.container-fixed {
   overflow-y: hidden; }
 
-.container-left .row {
+.container-fixed .row {
   border-right: none; }
 
-.container-right {
+.container-scrollable {
   flex: 1;
   overflow: hidden; }
 
-.container-right > .header-container {
+.container-scrollable > .header-container {
   overflow: hidden; }
 
-.container-right > .body {
+.container-scrollable > .body {
   overflow-x: auto; }
 
-.container-right .row {
+.container-scrollable .row {
   border-left: none; }
 
 .header {
@@ -60,14 +60,14 @@ body {
   min-width: -webkit-min-content;
   /* SUPER IMPORTANT: if we don't have this, the hidden part will not render border and background color when scrolling */ }
 
-.container-right > .header {
+.container-scrollable > .header {
   overflow: hidden; }
 
 .header-cell, .body-cell {
   min-width: 100px;
   width: 100px; }
 
-.container-right > .body {
+.container-scrollable > .body {
   position: absolute;
   top: 50px;
   bottom: 0;
@@ -76,7 +76,7 @@ body {
   overflow-y: scroll;
   overflow-x: auto; }
 
-.container-left > .body {
+.container-fixed > .body {
   overflow: hidden;
   position: absolute;
   top: 50px;

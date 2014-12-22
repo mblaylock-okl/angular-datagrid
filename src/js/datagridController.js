@@ -52,7 +52,7 @@ datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
         'original_msrp': {
             header: 'MSRP',
             html_template: 'text',
-            path: 'sku.msrp',
+            path: 'sku.retail',
             validations: {
                 'field-less-than-limit' : {
                     'value': 10
@@ -70,7 +70,7 @@ datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
             html_template: 'list',
             path: 'inv_commitments',
             sub_html_template: 'text',
-            sub_path: 'time_period_start',
+            sub_path: 'time_period_start'
         },
         'commitment_end': {
             header: 'Commitment End',
@@ -119,7 +119,7 @@ datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
         'sku.non_taxable': false,
         'sku.vendor_sku': '12345',
         'sku.wholesale': null,
-        'sku.retail': null,
+        'sku.retail': 100,
         'sku.cost': 13.50,
         'sku.price': 27.99,
         'sku.unit_of_measure': 1,
@@ -180,7 +180,7 @@ datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
             non_taxable: false,
             vendor_sku: '12345',
             wholesale: null,
-            retail: null,
+            retail: 50,
             cost: 13.50,
             price: 27.99,
             unit_of_measure: 1,
@@ -236,6 +236,14 @@ datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
     $scope.data = {
         metadata: $scope.metadataOrdered,
         rows: [
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat),

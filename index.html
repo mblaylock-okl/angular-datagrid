@@ -15,10 +15,10 @@
             font-weight: 600;
             margin: 5px 0;
         }
-        .datagrid-container {
+        .datagrid-holder {
             position: relative;
             margin-top: 25px;
-            height: 500px;
+            height: 444px;
         }
     </style>
 </head>
@@ -40,15 +40,8 @@
         </p>
     </header>
 
-    <div class="datagrid-container" ng-controller="datagridCtrl">
+    <div class="datagrid-holder" ng-controller="datagridCtrl">
         <div data-datagrid="true" data-datasource="data"></div>
     </div>
-
-    <section>
-        <h3>TODO List</h3>
-        <ul>
-            <li>fixed size in width is hardcoded in the css.</li>
-        </ul>
-    </section>
 </body>
 </html>

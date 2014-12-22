@@ -37,7 +37,6 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         }],
         link: function ($scope, $element, attrs) {
             var $ngModel;
-
             $timeout(function() {
                 $ngModel = $element.find('[ng-model]');
                 $scope.addValidations($ngModel);
@@ -49,6 +48,39 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         }
     };
 
+}]);;datagridApp.directive('datagridContainer', ['$timeout', function($timeout) {
+
+    return {
+        restrict: "EA",
+        require: "^datagrid",
+        replace: true,
+        templateUrl: function (tElement, tAttrs) {
+            if (tAttrs.templateUrl === undefined) {
+                return "template/datagridContainer.tmpl.html";
+            } else {
+                return tAttrs.templateUrl;
+            }
+        },
+
+        scope: {
+            metadata: '=', // container metadata
+            rows: '=', // container datasource
+            cssClass: '@',
+            bodyStyle: '=',
+            onLoad: '&'
+        },
+        controller: ['$scope', '$element', function ($scope, $element) {
+            //console.log("metadata=", $scope.metadata);
+            //console.log("datasource=", $scope.rows);
+            //console.log("cssClass=", $scope.cssClass);
+        }],
+
+        link: function($scope, $elem, attrs) {
+            $timeout(function() {
+                $scope.onLoad()();
+            });
+        }
+    };
 }]);;datagridApp.controller('datagridCtrl', ['$scope', function ($scope) {
 
 
@@ -103,7 +135,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         'original_msrp': {
             header: 'MSRP',
             html_template: 'text',
-            path: 'sku.msrp',
+            path: 'sku.retail',
             validations: {
                 'field-less-than-limit' : {
                     'value': 10
@@ -121,7 +153,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
             html_template: 'list',
             path: 'inv_commitments',
             sub_html_template: 'text',
-            sub_path: 'time_period_start',
+            sub_path: 'time_period_start'
         },
         'commitment_end': {
             header: 'Commitment End',
@@ -170,7 +202,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         'sku.non_taxable': false,
         'sku.vendor_sku': '12345',
         'sku.wholesale': null,
-        'sku.retail': null,
+        'sku.retail': 100,
         'sku.cost': 13.50,
         'sku.price': 27.99,
         'sku.unit_of_measure': 1,
@@ -231,7 +263,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
             non_taxable: false,
             vendor_sku: '12345',
             wholesale: null,
-            retail: null,
+            retail: 50,
             cost: 13.50,
             price: 27.99,
             unit_of_measure: 1,
@@ -291,13 +323,21 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
             angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
+            angular.copy($scope.skuExampleReformat),
             angular.copy($scope.skuExampleReformat)
         ]
     };
 
 
 }
-]);;datagridApp.directive('datagrid', [function(){
+]);;datagridApp.directive('datagrid', ['$timeout', '$q', function($timeout, $q) {
     return {
         restrict: "EA",
         replace: true,
@@ -312,53 +352,83 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
             datasource: '=', //data structure that specifies the header and rows
             lastFixedColumn: '@' //index of the last fixed column
         },
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', '$element', function ($scope, $element) {
 
             $scope.datasource = $scope.datasource || { rows: [], metadata: [] };
-            $scope.lastFixedColumn = $scope.lastFixedColumn || 4;
+            $scope.lastFixedColumn = $scope.lastFixedColumn || 2;
 
             $scope.rows = $scope.datasource.rows;
             $scope.metadata = $scope.datasource.metadata;
 
-        }],
-        link: function ($scope, $element, attrs) {
+            //console.log("metadata=", $scope.metadata);
+            $scope.metadataFixed = $scope.metadata.slice(0, $scope.lastFixedColumn);
+            //console.log("metadataFixed=", $scope.metadataFixed);
+            $scope.metadataScrollable = $scope.metadata.slice($scope.lastFixedColumn);
+            //console.log("metadataScrollable=", $scope.metadataScrollable);
 
-            $scope.$fixedArea = $element.find('.container-left > .body');
-            $scope.$scrollableArea = $element.find('.container-right > .body');
-            $scope.$scrollableAreaHeader = $element.find('.container-right > .header-container');
+
+            //Async load of the inner directives
+            var q1 = $q.defer(),
+                q2 = $q.defer();
 
 
-            var onMousewheel = function (event) {
-                var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
-                var scrollTop = $scope.$fixedArea.scrollTop() + wheelDeltaY;
-                if (scrollTop > 0) {
-                    $scope.$scrollableArea.scrollTop(scrollTop);
-                    $scope.$fixedArea.scrollTop(scrollTop);
-                }
+
+            $scope.onLoadFixedArea = function() {
+                return q1.resolve();
             };
 
-            var onScroll = (function($verticalSyncTarget, $horizontalSyncTarget) {
+            $scope.onLoadScrollableArea = function() {
+                return q2.resolve();
+            };
+
+            $q.all([q1.promise, q2.promise]).then(function(result){
+                console.log("all promises good!", result);
+                $scope.initializeDOM();
+            });
+
+        }],
+        link: function ($scope, $element) {
+
+            var onMousewheel = function ($fixedArea, $scrollableArea) {
+                return function (event) {
+                    var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
+                    var scrollTop = $fixedArea.scrollTop() + wheelDeltaY;
+                    if (scrollTop > 0) {
+                        $scrollableArea.scrollTop(scrollTop);
+                        $fixedArea.scrollTop(scrollTop);
+                    }
+                };
+            };
+
+            var onScroll = function($fixedArea, $scrollableAreaHeader) {
                 return function(e) {
                     //sync both containers scrolling top and bottom
-                    $verticalSyncTarget.scrollTop($(e.target).scrollTop());
+                    $fixedArea.scrollTop($(e.target).scrollTop());
 
                     //sync header and body in the container
-                    $horizontalSyncTarget.scrollLeft($(e.target).scrollLeft());
+                    $scrollableAreaHeader.scrollLeft($(e.target).scrollLeft());
                 };
-            })($scope.$fixedArea, $scope.$scrollableAreaHeader);
+            };
 
-            $scope.$fixedArea.on('mousewheel', onMousewheel);
-            $scope.$scrollableArea.on('scroll', onScroll);
+            $scope.initializeDOM = function() {
+                console.log("datagrid directive", $element.find('.container-fixed > .body').length);
+                $scope.$fixedArea = $element.find('.container-fixed > .body');
+                $scope.$scrollableArea = $element.find('.container-scrollable > .body');
+                $scope.$scrollableAreaHeader = $element.find('.container-scrollable > .header-container');
+
+                $scope.$fixedArea.on('mousewheel', onMousewheel($scope.$fixedArea, $scope.$scrollableArea));
+                $scope.$scrollableArea.on('scroll', onScroll($scope.$fixedArea, $scope.$scrollableAreaHeader));
+            };
 
             $scope.$watch(function () {
-                return $scope.$fixedArea.width();
+                return $scope.$fixedArea && $scope.$fixedArea.width();
             }, function (newValue, oldValue) {
                 if (newValue !== oldValue) {
                     $scope.fixedAreaWidth = {left: newValue + 'px'};
-                    console.log($scope.fixedAreaWidth);
                 }
             });
 
+            // clear the event listeners
             $element.on('$destroy', function() {
                 $scope.$fixedArea.off(onMousewheel);
                 $scope.$scrollableArea.off(onScroll);
@@ -372,7 +442,6 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
         require: 'ngModel',
 
         link: function($scope, elem, attrs, ngModelController) {
-            console.log("fieldLessThanLimit");
             //var parsedNgModel = $parse(attrs.ngModel);
             //console.log("fieldLessThanLimit", attrs.ngModel, parsedNgModel);
 

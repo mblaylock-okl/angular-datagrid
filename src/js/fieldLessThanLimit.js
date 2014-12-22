@@ -4,7 +4,6 @@ datagridApp.directive('fieldLessThanLimit', [function () {
         require: 'ngModel',
 
         link: function($scope, elem, attrs, ngModelController) {
-            console.log("fieldLessThanLimit");
             //var parsedNgModel = $parse(attrs.ngModel);
             //console.log("fieldLessThanLimit", attrs.ngModel, parsedNgModel);
 

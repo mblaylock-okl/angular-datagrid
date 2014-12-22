@@ -1,4 +1,4 @@
-datagridApp.directive('datagrid', [function(){
+datagridApp.directive('datagrid', ['$timeout', '$q', function($timeout, $q) {
     return {
         restrict: "EA",
         replace: true,
@@ -13,53 +13,83 @@ datagridApp.directive('datagrid', [function(){
             datasource: '=', //data structure that specifies the header and rows
             lastFixedColumn: '@' //index of the last fixed column
         },
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', '$element', function ($scope, $element) {
 
             $scope.datasource = $scope.datasource || { rows: [], metadata: [] };
-            $scope.lastFixedColumn = $scope.lastFixedColumn || 4;
+            $scope.lastFixedColumn = $scope.lastFixedColumn || 2;
 
             $scope.rows = $scope.datasource.rows;
             $scope.metadata = $scope.datasource.metadata;
 
-        }],
-        link: function ($scope, $element, attrs) {
+            //console.log("metadata=", $scope.metadata);
+            $scope.metadataFixed = $scope.metadata.slice(0, $scope.lastFixedColumn);
+            //console.log("metadataFixed=", $scope.metadataFixed);
+            $scope.metadataScrollable = $scope.metadata.slice($scope.lastFixedColumn);
+            //console.log("metadataScrollable=", $scope.metadataScrollable);
 
-            $scope.$fixedArea = $element.find('.container-left > .body');
-            $scope.$scrollableArea = $element.find('.container-right > .body');
-            $scope.$scrollableAreaHeader = $element.find('.container-right > .header-container');
+
+            //Async load of the inner directives
+            var q1 = $q.defer(),
+                q2 = $q.defer();
 
 
-            var onMousewheel = function (event) {
-                var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
-                var scrollTop = $scope.$fixedArea.scrollTop() + wheelDeltaY;
-                if (scrollTop > 0) {
-                    $scope.$scrollableArea.scrollTop(scrollTop);
-                    $scope.$fixedArea.scrollTop(scrollTop);
-                }
+
+            $scope.onLoadFixedArea = function() {
+                return q1.resolve();
             };
 
-            var onScroll = (function($verticalSyncTarget, $horizontalSyncTarget) {
+            $scope.onLoadScrollableArea = function() {
+                return q2.resolve();
+            };
+
+            $q.all([q1.promise, q2.promise]).then(function(result){
+                console.log("all promises good!", result);
+                $scope.initializeDOM();
+            });
+
+        }],
+        link: function ($scope, $element) {
+
+            var onMousewheel = function ($fixedArea, $scrollableArea) {
+                return function (event) {
+                    var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
+                    var scrollTop = $fixedArea.scrollTop() + wheelDeltaY;
+                    if (scrollTop > 0) {
+                        $scrollableArea.scrollTop(scrollTop);
+                        $fixedArea.scrollTop(scrollTop);
+                    }
+                };
+            };
+
+            var onScroll = function($fixedArea, $scrollableAreaHeader) {
                 return function(e) {
                     //sync both containers scrolling top and bottom
-                    $verticalSyncTarget.scrollTop($(e.target).scrollTop());
+                    $fixedArea.scrollTop($(e.target).scrollTop());
 
                     //sync header and body in the container
-                    $horizontalSyncTarget.scrollLeft($(e.target).scrollLeft());
+                    $scrollableAreaHeader.scrollLeft($(e.target).scrollLeft());
                 };
-            })($scope.$fixedArea, $scope.$scrollableAreaHeader);
+            };
 
-            $scope.$fixedArea.on('mousewheel', onMousewheel);
-            $scope.$scrollableArea.on('scroll', onScroll);
+            $scope.initializeDOM = function() {
+                console.log("datagrid directive", $element.find('.container-fixed > .body').length);
+                $scope.$fixedArea = $element.find('.container-fixed > .body');
+                $scope.$scrollableArea = $element.find('.container-scrollable > .body');
+                $scope.$scrollableAreaHeader = $element.find('.container-scrollable > .header-container');
+
+                $scope.$fixedArea.on('mousewheel', onMousewheel($scope.$fixedArea, $scope.$scrollableArea));
+                $scope.$scrollableArea.on('scroll', onScroll($scope.$fixedArea, $scope.$scrollableAreaHeader));
+            };
 
             $scope.$watch(function () {
-                return $scope.$fixedArea.width();
+                return $scope.$fixedArea && $scope.$fixedArea.width();
             }, function (newValue, oldValue) {
                 if (newValue !== oldValue) {
                     $scope.fixedAreaWidth = {left: newValue + 'px'};
-                    console.log($scope.fixedAreaWidth);
                 }
             });
 
+            // clear the event listeners
             $element.on('$destroy', function() {
                 $scope.$fixedArea.off(onMousewheel);
                 $scope.$scrollableArea.off(onScroll);

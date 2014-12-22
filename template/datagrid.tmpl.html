@@ -1,35 +1,40 @@
 <div class="datagrid">
 
     <!-- fixed container -->
-    <div class="container-left">
-        <div class="header">
-            <div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>
-        </div>
+    <!--<div class="container-fixed">-->
+        <!--<div class="header">-->
+            <!--<div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>-->
+        <!--</div>-->
 
-        <div class="body">
-            <div class="row" ng-repeat="row in rows track by $index" ng-form="datagridForm_{{$index}}">
-                <div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">
-                    <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
-               </div>
-            </div>
-        </div>
-    </div>
+        <!--<div class="body">-->
+            <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
+                <!--<div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">-->
+                    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
+               <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div data-datagrid-container="true" data-css-class="container-fixed" data-rows="rows" data-metadata="metadataFixed" data-on-load="onLoadFixedArea"></div>
 
     <!-- scrollable container -->
-    <div class="container-right">
-        <div class="header-container">
-            <div class="header">
-                <div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>
-            </div>
-        </div>
+    <!--<div class="container-scrollable">-->
+        <!--<div class="header-container">-->
+            <!--<div class="header">-->
+                <!--<div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="body" ng-style="fixedAreaWidth">
-            <div class="row" ng-repeat="row in rows" ng-form="">
-                <div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">
-                    <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
-                </div>
-            </div>
-        </div>
-    </div>
+        <!--<div class="body" ng-style="fixedAreaWidth">-->
+            <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
+                <!--<div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">-->
+                    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <datagrid-container data-css-class="container-scrollable" data-rows="rows" data-metadata="metadataScrollable" data-body-style="fixedAreaWidth" data-on-load="onLoadScrollableArea"></datagrid-container>
+
 
 </div>

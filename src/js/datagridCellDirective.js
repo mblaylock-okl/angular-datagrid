@@ -37,7 +37,6 @@ datagridApp.directive('datagridCell', ['$timeout', '$compile', function ($timeou
         }],
         link: function ($scope, $element, attrs) {
             var $ngModel;
-
             $timeout(function() {
                 $ngModel = $element.find('[ng-model]');
                 $scope.addValidations($ngModel);
