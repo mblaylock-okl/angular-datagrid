@@ -2,39 +2,77 @@
 
     <!-- fixed container -->
     <!--<div class="container-fixed">-->
-        <!--<div class="header">-->
-            <!--<div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>-->
-        <!--</div>-->
-
-        <!--<div class="body">-->
-            <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
-                <!--<div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">-->
-                    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
-               <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="header">-->
+    <!--<div class="header-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">{{col.header}}</div>-->
     <!--</div>-->
 
-    <div data-datagrid-container="true" data-css-class="container-fixed" data-rows="rows" data-metadata="metadataFixed" data-on-load="onLoadFixedArea"></div>
+    <!--<div class="body">-->
+    <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
+    <!--<div class="body-cell" ng-repeat="col in metadata | limitTo:lastFixedColumn">-->
+    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div data-datagrid-container="true" data-css-class="container-fixed" data-rows="rows" data-metadata="metadataFixed"
+         data-on-load="onLoadFixedArea"></div>
 
     <!-- scrollable container -->
     <!--<div class="container-scrollable">-->
-        <!--<div class="header-container">-->
-            <!--<div class="header">-->
-                <!--<div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="body" ng-style="fixedAreaWidth">-->
-            <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
-                <!--<div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">-->
-                    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <!--<div class="header-container">-->
+    <!--<div class="header">-->
+    <!--<div class="header-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">{{col.header}}</div>-->
+    <!--</div>-->
     <!--</div>-->
 
-    <datagrid-container data-css-class="container-scrollable" data-rows="rows" data-metadata="metadataScrollable" data-body-style="fixedAreaWidth" data-on-load="onLoadScrollableArea"></datagrid-container>
+    <!--<div class="body" ng-style="fixedAreaWidth">-->
+    <!--<div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">-->
+    <!--<div class="body-cell" ng-repeat="col in metadata | startAt:lastFixedColumn">-->
+    <!--<datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 
+    <datagrid-container data-css-class="container-scrollable" data-rows="rows" data-metadata="metadataScrollable"
+                        data-body-style="fixedAreaWidth" data-on-load="onLoadScrollableArea"></datagrid-container>
+
+    <!-- Datagrid container template -->
+    <script type="text/ng-template" id="template/datagridContainer.tmpl.html">
+        <div class="{{cssClass}}">
+            <div class="header-container">
+                <div class="header">
+                    <div class="header-cell" ng-repeat="col in metadata">{{col.header}}</div>
+                </div>
+            </div>
+            <div class="body" ng-style="bodyStyle">
+                <div class="row" ng-repeat="row in rows track by $index" ng-form="form_$index">
+                    <div class="body-cell" ng-repeat="col in metadata">
+                        <datagrid-cell data-datasource="row" data-metadata="col"></datagrid-cell>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Datagrid cell template -->
+    <script type="text/ng-template" id="template/datagridCell.tmpl.html">
+        <div class="datagrid-cell">
+            <!-- img -->
+            <img ng-if="metadata.html_template == 'img'" ng-src="{{datasource[metadata.path]}}">
+
+            <!-- input type text-->
+            <span ng-if="!metadata.editable && metadata.html_template == 'text'">{{datasource[metadata.path]}}</span>
+            <span ng-if="metadata.editable && metadata.html_template == 'text'"><input type="text"
+                                                                                       ng-model="datasource[metadata.path]"></span>
+
+            <!-- list -->
+            <div ng-if="metadata.html_template == 'list'" ng-repeat="item in datasource[metadata.path] track by $index">
+                <img ng-if="metadata.sub_html_template == 'img'" ng-src="{{item[metadata.sub_path]}}">
+                <span ng-if="metadata.sub_html_template == 'text'">{{item[metadata.sub_path]}}</span>
+            </div>
+        </div>
+    </script>
 
 </div>

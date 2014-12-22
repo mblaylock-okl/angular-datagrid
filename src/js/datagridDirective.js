@@ -44,35 +44,41 @@ datagridApp.directive('datagrid', ['$timeout', '$q', function($timeout, $q) {
         }],
         link: function ($scope, $element) {
 
-            var onMousewheel = function ($fixedArea, $scrollableArea) {
-                return function (event) {
-                    var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
-                    var scrollTop = $fixedArea.scrollTop() + wheelDeltaY;
-                    if (scrollTop > 0) {
-                        $scrollableArea.scrollTop(scrollTop);
-                        $fixedArea.scrollTop(scrollTop);
-                    }
-                };
-            };
-
-            var onScroll = function($fixedArea, $scrollableAreaHeader) {
-                return function(e) {
-                    //sync both containers scrolling top and bottom
-                    $fixedArea.scrollTop($(e.target).scrollTop());
-
-                    //sync header and body in the container
-                    $scrollableAreaHeader.scrollLeft($(e.target).scrollLeft());
-                };
-            };
 
             $scope.initializeDOM = function() {
-                console.log("datagrid directive", $element.find('.container-fixed > .body').length);
                 $scope.$fixedArea = $element.find('.container-fixed > .body');
                 $scope.$scrollableArea = $element.find('.container-scrollable > .body');
                 $scope.$scrollableAreaHeader = $element.find('.container-scrollable > .header-container');
 
-                $scope.$fixedArea.on('mousewheel', onMousewheel($scope.$fixedArea, $scope.$scrollableArea));
-                $scope.$scrollableArea.on('scroll', onScroll($scope.$fixedArea, $scope.$scrollableAreaHeader));
+                var onMousewheel = (function($fixedArea, $scrollableArea) {
+                        return function (event) {
+                            var wheelDeltaY = (event.webkitDirectionInvertedFromDevice) ? event.originalEvent.wheelDelta : -event.originalEvent.wheelDelta;
+                            var scrollTop = $fixedArea.scrollTop() + wheelDeltaY;
+                            if (scrollTop > 0) {
+                                $scrollableArea.scrollTop(scrollTop);
+                                $fixedArea.scrollTop(scrollTop);
+                            }
+                        };
+                    })($scope.$fixedArea, $scope.$scrollableArea);
+
+                var onScroll = (function($fixedArea, $scrollableAreaHeader) {
+                    return function(e) {
+                        //sync both containers scrolling top and bottom
+                        $fixedArea.scrollTop($(e.target).scrollTop());
+
+                        //sync header and body in the container
+                        $scrollableAreaHeader.scrollLeft($(e.target).scrollLeft());
+                    };
+                })($scope.$fixedArea, $scope.$scrollableAreaHeader);
+
+                $scope.$fixedArea.on('mousewheel', onMousewheel);
+                $scope.$scrollableArea.on('scroll', onScroll);
+
+                // clear the event listeners
+                $element.on('$destroy', function() {
+                    $scope.$fixedArea.off(onMousewheel);
+                    $scope.$scrollableArea.off(onScroll);
+                });
             };
 
             $scope.$watch(function () {
@@ -81,12 +87,6 @@ datagridApp.directive('datagrid', ['$timeout', '$q', function($timeout, $q) {
                 if (newValue !== oldValue) {
                     $scope.fixedAreaWidth = {left: newValue + 'px'};
                 }
-            });
-
-            // clear the event listeners
-            $element.on('$destroy', function() {
-                $scope.$fixedArea.off(onMousewheel);
-                $scope.$scrollableArea.off(onScroll);
             });
         }
     };
