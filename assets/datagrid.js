@@ -360,18 +360,13 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
             $scope.rows = $scope.datasource.rows;
             $scope.metadata = $scope.datasource.metadata;
 
-            //console.log("metadata=", $scope.metadata);
             $scope.metadataFixed = $scope.metadata.slice(0, $scope.lastFixedColumn);
-            //console.log("metadataFixed=", $scope.metadataFixed);
             $scope.metadataScrollable = $scope.metadata.slice($scope.lastFixedColumn);
-            //console.log("metadataScrollable=", $scope.metadataScrollable);
 
-
-            //Async load of the inner directives
+            //Async load of the inner directives because we are using urlTemplates
+            //Only when both areas are loaded we can add event listeners
             var q1 = $q.defer(),
                 q2 = $q.defer();
-
-
 
             $scope.onLoadFixedArea = function() {
                 return q1.resolve();
@@ -381,8 +376,7 @@ var datagridApp = angular.module("DatagridApp", []);;datagridApp.directive('data
                 return q2.resolve();
             };
 
-            $q.all([q1.promise, q2.promise]).then(function(result){
-                console.log("all promises good!", result);
+            $q.all([q1.promise, q2.promise]).then(function(){
                 $scope.initializeDOM();
             });
 
